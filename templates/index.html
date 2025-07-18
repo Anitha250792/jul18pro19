@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Email Template Previewer</title>
+  <style>
+    /* Responsive, clean form and preview styling */
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    form {
+      background: white;
+      padding: 1.5rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      max-width: 600px;
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-family: inherit;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+
+    textarea {
+      min-height: 150px;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+
+    .preview-container {
+      background: white;
+      padding: 1.5rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .preview-title {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #222;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 0.5rem;
+    }
+
+    .preview-body {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #444;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 1rem;
+      }
+      form, .preview-container {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Email Template Previewer</h1>
+
+  <form method="POST">
+    <label for="email_title">Email Title</label>
+    <input
+      type="text"
+      id="email_title"
+      name="email_title"
+      placeholder="Enter email subject"
+      value="{{ email_title|e }}"
+      required
+    />
+
+    <label for="email_body">Email Body (Use Jinja2 placeholders)</label>
+    <textarea
+      id="email_body"
+      name="email_body"
+      placeholder="Type your email template here. Example: Hello {{ '{{ user_name }}' }}!"
+      required
+    >{{ email_body|e }}</textarea>
+
+    <button type="submit">Preview Email</button>
+  </form>
+
+  {% if rendered_email %}
+  <div class="preview-container">
+    <div class="preview-title">{{ email_title }}</div>
+    <div class="preview-body">{{ rendered_email }}</div>
+  </div>
+  {% endif %}
+
+</body>
+</html>
